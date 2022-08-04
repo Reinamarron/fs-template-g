@@ -3,7 +3,7 @@ const app = express()
 const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient
 require('dotenv').config()
-const PORT = 8000
+const port = process.env.PORT || 3000;
 
 let db,
   dbConnectionString = process.env.DB_STRING,
@@ -23,7 +23,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors())
 
-app.get('/', async (request, response) => {
+app.get('/', (req, res) => {
+  res.send(process.env.SECRET_KEY);
+})
   try {
     response.render('index.ejs')
   } catch (error) {
@@ -33,6 +35,6 @@ app.get('/', async (request, response) => {
 
 
 
-app.listen(process.env.PORT || PORT, () => {
-  console.log('Server is running on port')
+app.listen(port, () => {
+  console.log('Server is running on port ${port}.')
 })
